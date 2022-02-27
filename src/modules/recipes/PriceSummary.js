@@ -29,14 +29,14 @@ Price.propTypes = {
 const titleStr = (name, count) => `${name} ${count > 1 ? `x ${count}` : ''}`;
 
 // Create PriceSummary user interface
-const PriceSummary = ({ summary, totalPrice, shippingCharges }) => {
-  const total = totalPrice + shippingCharges;
+const PriceSummary = ({ summary, totalPrice, shippingPrice }) => {
+  const total = totalPrice + shippingPrice;
   return (
     <Box width={['290px', '450px']} alignItems="center" p="sm">
       {summary.map(({ name, price, count }) => (
         <Price key={name} name={titleStr(name, count)} price={price} />
       ))}
-      <Price name="Shipping Charges" price={shippingCharges} />
+      <Price name="Shipping Charges" price={shippingPrice} />
       <Box my="xs" borderTopStyle="solid" borderTopWidth="sm" borderTopColor="neutral_400" />
       <Price name="Total" price={total} fontWeight="bold" />
     </Box>
@@ -52,7 +52,7 @@ PriceSummary.propTypes = {
     })
   ).isRequired,
   totalPrice: PropTypes.number.isRequired,
-  shippingCharges: PropTypes.number.isRequired,
+  shippingPrice: PropTypes.number.isRequired,
 };
 
 export default PriceSummary;

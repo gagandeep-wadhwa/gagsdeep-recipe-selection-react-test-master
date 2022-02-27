@@ -11,6 +11,27 @@ import IconMinusCircle from '../../icons/IconMinusCircle';
 import IconPlusCircle from '../../icons/IconPlusCircle';
 import { parseRawPrice } from './price';
 
+const SelectionButton = styled.button`
+  ${css({
+    outline: 'none',
+    color: 'white',
+    padding: 'sm',
+    cursor: 'pointer',
+    backgroundColor: 'primary_600',
+    border: 'none',
+    ':hover:enabled': {
+      backgroundColor: 'primary_700',
+    },
+    ':active:enabled': {
+      backgroundColor: 'primary_800',
+    },
+  })}
+  &:disabled {
+    cursor: default;
+    opacity: 0.5;
+  }
+`;
+
 const RecipeCard = ({
   extraCharge,
   handleAddRecipe,
@@ -46,7 +67,7 @@ const RecipeCard = ({
     </Box>
     {selected ? (
       <SelectedRecipeFooter
-        recipeId={id}
+        id={id}
         yields={yields}
         selected={selected}
         selectionLimit={selectionLimit}
@@ -56,8 +77,8 @@ const RecipeCard = ({
       />
     ) : (
       <UnselectedRecipeFooter
-        recipeId={id}
-        price={extraCharge && extraCharge}
+        id={id}
+        extraCharge={extraCharge}
         selected={selected}
         minRecipesSelected={minRecipesSelected}
         maxRecipesSelected={maxRecipesSelected}
@@ -68,57 +89,8 @@ const RecipeCard = ({
   </Box>
 );
 
-RecipeCard.propTypes = {
-  extraCharge: PropTypes.number,
-  handleAddRecipe: PropTypes.func,
-  handleRemoveRecipe: PropTypes.func,
-  headline: PropTypes.string,
-  id: PropTypes.string,
-  image: PropTypes.string,
-  maxRecipesSelected: PropTypes.bool,
-  minRecipesSelected: PropTypes.bool,
-  name: PropTypes.string,
-  selected: PropTypes.number,
-  selectionLimit: PropTypes.number,
-  yields: PropTypes.number,
-};
-
-const UnselectedRecipeFooter = ({
-  isExtra,
-  price,
-  recipeId,
-  minRecipesSelected,
-  maxRecipesSelected,
-  handleAddRecipe,
-}) => (
-  <Flex p="xs">
-    <Box flex="50%" alignSelf="center">
-      {price ? <Text color="primary_600">+{parseRawPrice(price)}</Text> : null}
-    </Box>
-    <Box flex="50%">
-      <Button
-        onClick={() => handleAddRecipe(recipeId)}
-        variant="secondary"
-        width="100%"
-        p="0"
-        disabled={maxRecipesSelected}>
-        {minRecipesSelected ? 'Add extra meal' : 'Add'}
-      </Button>
-    </Box>
-  </Flex>
-);
-
-UnselectedRecipeFooter.propTypes = {
-  isExtra: PropTypes.bool,
-  price: PropTypes.number,
-  recipeId: PropTypes.string,
-  minRecipesSelected: PropTypes.bool,
-  maxRecipesSelected: PropTypes.bool,
-  handleAddRecipe: PropTypes.func,
-};
-
 const SelectedRecipeFooter = ({
-  recipeId,
+  id,
   selected,
   selectionLimit,
   yields,
@@ -126,10 +98,10 @@ const SelectedRecipeFooter = ({
   handleAddRecipe,
   handleRemoveRecipe,
 }) => {
-  const disabled = maxRecipesSelected || (selected >= selectionLimit ?? 0);
+  const disabled = maxRecipesSelected || selected >= selectionLimit;
   return (
     <Flex backgroundColor="primary_600" justifyContent="space-between" alignItems="center">
-      <SelectionButton onClick={() => handleRemoveRecipe(recipeId)} title="Decrease quantity">
+      <SelectionButton onClick={() => handleRemoveRecipe(id)} title="Decrease quantity">
         <IconMinusCircle />
       </SelectionButton>
       <Box color="white">
@@ -141,7 +113,7 @@ const SelectedRecipeFooter = ({
         </Text>
       </Box>
       <SelectionButton
-        onClick={() => handleAddRecipe(recipeId)}
+        onClick={() => handleAddRecipe(id)}
         title="Increase quantity"
         disabled={disabled}>
         <IconPlusCircle />
@@ -150,35 +122,61 @@ const SelectedRecipeFooter = ({
   );
 };
 
-SelectedRecipeFooter.propTypes = {
-  recipeId: PropTypes.string,
-  selected: PropTypes.number,
-  selectionLimit: PropTypes.number,
-  yields: PropTypes.number,
-  maxRecipesSelected: PropTypes.bool,
-  handleAddRecipe: PropTypes.func,
-  handleRemoveRecipe: PropTypes.func,
-};
-
-const SelectionButton = styled.button`
-  ${css({
-    outline: 'none',
-    color: 'white',
-    padding: 'sm',
-    cursor: 'pointer',
-    backgroundColor: 'primary_600',
-    border: 'none',
-    ':hover:enabled': {
-      backgroundColor: 'primary_700',
-    },
-    ':active:enabled': {
-      backgroundColor: 'primary_800',
-    },
-  })}
-  &:disabled {
-    cursor: default;
-    opacity: 0.5;
-  }
-`;
+const UnselectedRecipeFooter = ({
+  extraCharge,
+  id,
+  minRecipesSelected,
+  maxRecipesSelected,
+  handleAddRecipe,
+}) => (
+  <Flex p="xs">
+    <Box flex="50%" alignSelf="center">
+      {extraCharge ? <Text color="primary_600">+{parseRawPrice(extraCharge)}</Text> : null}
+    </Box>
+    <Box flex="50%">
+      <Button
+        onClick={() => handleAddRecipe(id)}
+        variant="secondary"
+        width="100%"
+        p="0"
+        disabled={maxRecipesSelected}>
+        {minRecipesSelected ? 'Add extra meal' : 'Add'}
+      </Button>
+    </Box>
+  </Flex>
+);
 
 export default RecipeCard;
+
+RecipeCard.propTypes = {
+  extraCharge: PropTypes.number,
+  handleAddRecipe: PropTypes.func.isRequired,
+  handleRemoveRecipe: PropTypes.func.isRequired,
+  headline: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
+  maxRecipesSelected: PropTypes.bool.isRequired,
+  minRecipesSelected: PropTypes.bool.isRequired,
+  name: PropTypes.string.isRequired,
+  selected: PropTypes.number.isRequired,
+  selectionLimit: PropTypes.number.isRequired,
+  yields: PropTypes.number.isRequired,
+};
+
+SelectedRecipeFooter.propTypes = {
+  id: PropTypes.string.isRequired,
+  selected: PropTypes.number.isRequired,
+  selectionLimit: PropTypes.number.isRequired,
+  yields: PropTypes.number.isRequired,
+  maxRecipesSelected: PropTypes.bool.isRequired,
+  handleAddRecipe: PropTypes.func.isRequired,
+  handleRemoveRecipe: PropTypes.func.isRequired,
+};
+
+UnselectedRecipeFooter.propTypes = {
+  extraCharge: PropTypes.number,
+  id: PropTypes.string.isRequired,
+  minRecipesSelected: PropTypes.bool.isRequired,
+  maxRecipesSelected: PropTypes.bool.isRequired,
+  handleAddRecipe: PropTypes.func.isRequired,
+};
