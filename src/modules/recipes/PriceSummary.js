@@ -5,8 +5,10 @@ import Flex from '../../components/Flex';
 import Text from '../../components/Text';
 import { parseRawPrice } from './price';
 
-const Price = ({ name, price, fontWeight }) => (
-  <Flex mb="xs" alignItems="center" justifyContent="space-between">
+const titleStr = (name, count) => `${name} ${count > 1 ? `x ${count}` : ''}`;
+
+const Price = ({ name, price, fontWeight, mb }) => (
+  <Flex mb={mb} alignItems="center" justifyContent="space-between">
     <Text fontSize="md" fontWeight={fontWeight} lineHeight="md">
       {name}
     </Text>
@@ -15,18 +17,6 @@ const Price = ({ name, price, fontWeight }) => (
     </Text>
   </Flex>
 );
-
-Price.defaultProps = {
-  fontWeight: 'regular',
-};
-
-Price.propTypes = {
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  fontWeight: PropTypes.string,
-};
-
-const titleStr = (name, count) => `${name} ${count > 1 ? `x ${count}` : ''}`;
 
 // Create PriceSummary user interface
 const PriceSummary = ({ summary, totalPrice, shippingPrice }) => {
@@ -38,17 +28,29 @@ const PriceSummary = ({ summary, totalPrice, shippingPrice }) => {
       ))}
       <Price name="Shipping Charges" price={shippingPrice} />
       <Box my="xs" borderTopStyle="solid" borderTopWidth="sm" borderTopColor="neutral_400" />
-      <Price name="Total" price={total} fontWeight="bold" />
+      <Price name="Total" price={total} fontWeight="bold" mb={null} />
     </Box>
   );
+};
+
+Price.defaultProps = {
+  fontWeight: 'regular',
+  mb: 'xs'
+};
+
+Price.propTypes = {
+  name: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  fontWeight: PropTypes.string,
+  mb: PropTypes.string
 };
 
 PriceSummary.propTypes = {
   summary: PropTypes.arrayOf(
     PropTypes.shape({
-      name: PropTypes.string,
-      count: PropTypes.number,
-      price: PropTypes.number,
+      name: PropTypes.string.isRequired,
+      count: PropTypes.number.isRequired,
+      price: PropTypes.number.isRequired,
     })
   ).isRequired,
   totalPrice: PropTypes.number.isRequired,
