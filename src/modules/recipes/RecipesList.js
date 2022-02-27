@@ -71,11 +71,7 @@ const Recipes = () => {
             <Box textAlign="right" mr="xs">
               <h3>{parseRawPrice(totalPrice + shippingPrice)}</h3>
             </Box>
-            <PriceInfo
-              summary={summary}
-              totalPrice={totalPrice}
-              shippingPrice={shippingPrice}
-            />
+            <PriceInfo summary={summary} totalPrice={totalPrice} shippingPrice={shippingPrice} />
           </Flex>
         </Col>
       </Row>

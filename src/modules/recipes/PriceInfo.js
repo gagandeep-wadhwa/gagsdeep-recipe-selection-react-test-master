@@ -20,11 +20,7 @@ const PriceInfo = ({ summary, totalPrice, shippingPrice }) => {
       </IconButton>
       {isTooltipOpen ? (
         <Tooltip>
-          <PriceSummary
-            summary={summary}
-            totalPrice={totalPrice}
-            shippingPrice={shippingPrice}
-          />
+          <PriceSummary summary={summary} totalPrice={totalPrice} shippingPrice={shippingPrice} />
         </Tooltip>
       ) : null}
     </TooltipContainer>

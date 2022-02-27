@@ -101,7 +101,10 @@ const SelectedRecipeFooter = ({
   const disabled = maxRecipesSelected || selected >= selectionLimit;
   return (
     <Flex backgroundColor="primary_600" justifyContent="space-between" alignItems="center">
-      <SelectionButton onClick={() => handleRemoveRecipe(id)} title="Decrease quantity">
+      <SelectionButton
+        onClick={() => handleRemoveRecipe(id)}
+        title="Decrease quantity"
+        data-test="btn-decrease-quantity">
         <IconMinusCircle />
       </SelectionButton>
       <Box color="white">
@@ -115,7 +118,8 @@ const SelectedRecipeFooter = ({
       <SelectionButton
         onClick={() => handleAddRecipe(id)}
         title="Increase quantity"
-        disabled={disabled}>
+        disabled={disabled}
+        data-test="btn-increase-quantity">
         <IconPlusCircle />
       </SelectionButton>
     </Flex>
@@ -139,7 +143,8 @@ const UnselectedRecipeFooter = ({
         variant="secondary"
         width="100%"
         p="0"
-        disabled={maxRecipesSelected}>
+        disabled={maxRecipesSelected}
+        data-test="btn-add">
         {minRecipesSelected ? 'Add extra meal' : 'Add'}
       </Button>
     </Box>

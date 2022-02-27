@@ -35,14 +35,14 @@ const PriceSummary = ({ summary, totalPrice, shippingPrice }) => {
 
 Price.defaultProps = {
   fontWeight: 'regular',
-  mb: 'xs'
+  mb: 'xs',
 };
 
 Price.propTypes = {
   name: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   fontWeight: PropTypes.string,
-  mb: PropTypes.string
+  mb: PropTypes.string,
 };
 
 PriceSummary.propTypes = {
