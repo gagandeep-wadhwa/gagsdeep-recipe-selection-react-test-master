@@ -43,7 +43,7 @@ Price.propTypes = {
   price: PropTypes.number.isRequired,
   fontWeight: PropTypes.string,
   mb: PropTypes.string,
-  testId: PropTypes.string
+  testId: PropTypes.string.isRequired
 };
 
 PriceSummary.propTypes = {
