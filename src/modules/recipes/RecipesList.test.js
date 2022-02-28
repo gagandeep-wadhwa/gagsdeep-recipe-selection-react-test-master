@@ -17,7 +17,7 @@ describe('RecipeList', () => {
     render(<Recipes />);
     await wait(() => expect(screen.getByText('WEEK OF OCTOBER 12TH')).toBeInTheDocument());
 
-    const priceSummaryBtn = screen.getByTestId('btn-price-summary');
+    const priceSummaryBtn = screen.getByTestId('info-button');
     userEvent.click(priceSummaryBtn);
     expect(screen.getByText('Total')).toBeInTheDocument();
     
