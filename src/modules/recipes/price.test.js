@@ -7,8 +7,11 @@ describe('price', () => {
       let parsedPrice = parseRawPrice(price);
       expect(parsedPrice).toBe('$10.00');
      
-      parsedPrice = parseRawPrice(1159);
-      expect(parsedPrice).toBe('$11.59');
+      parsedPrice = parseRawPrice(11);
+      expect(parsedPrice).toBe('$0.11');
+
+      parsedPrice = parseRawPrice(1);
+      expect(parsedPrice).toBe('$0.01');
     });
   });
 });
