@@ -26,9 +26,9 @@ const PriceSummary = ({ summary, totalPrice, shippingPrice }) => {
       {summary.map(({ name, price, count }) => (
         <Price key={name} name={titleStr(name, count)} price={price} testId={name} />
       ))}
-      <Price name="Shipping Charges" price={shippingPrice} />
+      <Price name="Shipping Charges" price={shippingPrice} testId={'shippingPrice'}/>
       <Box my="xs" borderTopStyle="solid" borderTopWidth="sm" borderTopColor="neutral_400" />
-      <Price name="Total" price={total} fontWeight="bold" mb={null} />
+      <Price name="Total" price={total} fontWeight="bold" mb={null} testId={'total'}/>
     </Box>
   );
 };
@@ -43,7 +43,7 @@ Price.propTypes = {
   price: PropTypes.number.isRequired,
   fontWeight: PropTypes.string,
   mb: PropTypes.string,
-  testId: PropTypes.string.isRequired
+  testId: PropTypes.string
 };
 
 PriceSummary.propTypes = {
