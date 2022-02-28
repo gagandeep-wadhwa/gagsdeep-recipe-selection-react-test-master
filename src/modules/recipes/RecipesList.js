@@ -15,14 +15,12 @@ const Recipes = () => {
 
   // add/remove recipe, feel free to remove or rename these these variables and values.
   const handleAddRecipe = (recipeId) => {
-    const { recipes: fetchedRecipes } = data;
     const updatedRecipes = recipes.map((el) =>
       el.id === recipeId ? Object.assign({}, el, { selected: el['selected'] + 1 }) : el
     );
     setRecipes(updatedRecipes);
   };
   const handleRemoveRecipe = (recipeId) => {
-    const { recipes: fetchedRecipes } = data;
     const updatedRecipes = recipes.map((el) =>
       el.id === recipeId
         ? Object.assign({}, el, {
@@ -37,7 +35,7 @@ const Recipes = () => {
   const totalSelected = recipes.reduce((total, recipe) => (total += recipe.selected ?? 0), 0);
 
   const minRecipesSelected = totalSelected >= data.min ?? 0;
-  const maxRecipesSelected = totalSelected > data.max;
+  const maxRecipesSelected = totalSelected >= data.max;
 
   // price summary and total price, feel free to remove or rename these variables and values.
   const summary = recipes
@@ -49,8 +47,7 @@ const Recipes = () => {
     }));
 
   const totalPrice = summary.reduce((total, { price }) => (total += price), 0);
-  const shippingCharges = data.shippingCharges ?? 0;
-  debugger;
+  const shippingPrice = data.shippingPrice ?? 0;
   React.useEffect(() => {
     const { recipes: fetchedRecipes } = data;
 
@@ -72,13 +69,9 @@ const Recipes = () => {
         <Col sm={6}>
           <Flex alignItems="center" justifyContent="flex-end">
             <Box textAlign="right" mr="xs">
-              <h3>{parseRawPrice(totalPrice + shippingCharges)}</h3>
+              <h3>{parseRawPrice(totalPrice + shippingPrice)}</h3>
             </Box>
-            <PriceInfo
-              summary={summary}
-              totalPrice={totalPrice}
-              shippingCharges={shippingCharges}
-            />
+            <PriceInfo summary={summary} totalPrice={totalPrice} shippingPrice={shippingPrice} />
           </Flex>
         </Col>
       </Row>
@@ -89,6 +82,8 @@ const Recipes = () => {
             <Box mb="md">
               <RecipeCard
                 {...recipe}
+                // if recepie selectionLimit is null then use box max
+                selectionLimit={recipe.selectionLimit ?? data.max}
                 handleAddRecipe={handleAddRecipe}
                 handleRemoveRecipe={handleRemoveRecipe}
                 minRecipesSelected={minRecipesSelected}

@@ -1,46 +1,70 @@
-import { render } from '@testing-library/react';
+/* eslint-disable no-unused-expressions */
+
+import { render, screen } from '@testing-library/react';
 import React from 'react';
 import PriceSummary from './PriceSummary';
 
-const summary = [{ name: 'Chicken Sausage & Spinach Ravioli', price: 1798, count: 1 }];
+const summary = [
+  { name: 'Chicken Sausage & Spinach Ravioli',
+    price: 1798,
+    count: 1 
+  },
+  {
+    name: 'Gouda Vibes Burgers',
+    price: 1298,
+    count: 2,
+  },
+];
 
-test('Check Price Summary', async () => {
-  const { getByText } = render(
-    <PriceSummary summary={summary} shippingCharges={1000} totalPrice={1798} />
-  );
-  const div = getByText('Chicken Sausage & Spinach Ravioli');
-  expect(div).toBeDefined();
-});
+describe('Price Summary', () => {
+  test('Verify summary information', () => {
+    render(<PriceSummary summary={summary} shippingPrice={1000} totalPrice={1798} />);
 
-test('Check Total Renders', async () => {
-  const totalPrice = '$10.00';
-  const { queryByText } = render(
-    <PriceSummary summary={summary} shippingCharges={1000} totalPrice={1798} />
-  );
-  expect(queryByText('Total')).toBeInTheDocument;
-});
+    const chickenSausage = screen.getByTestId('name:Chicken Sausage & Spinach Ravioli');
+    expect(chickenSausage).toHaveTextContent('Chicken Sausage & Spinach Ravioli');
 
-test('Check Shipping Price Value', async () => {
-  const shippingCharges = '$20.00';
-  const { queryByText } = render(
-    <PriceSummary summary={summary} shippingCharges={1000} totalPrice={1798} />
-  );
-  expect(queryByText(shippingCharges)).toBeInTheDocument;
-  //expect(div).not.toBeNull();
-});
+    const chickenSausagePrice = screen.getByTestId('price:Chicken Sausage & Spinach Ravioli');
+    expect(chickenSausagePrice).toHaveTextContent('$17.98');
 
-test('Check Recipe Price Value', async () => {
-  const recipePrice = '$17.98';
-  const { queryByText } = render(
-    <PriceSummary summary={summary} shippingCharges={2000} totalPrice={1798} />
-  );
-  expect(queryByText(recipePrice)).toBeInTheDocument;
-});
+    const goudaBurger = screen.getByTestId('name:Gouda Vibes Burgers');
+    expect(goudaBurger).toHaveTextContent('Gouda Vibes Burgers');
 
-test('Check Total Price Value', async () => {
-  const totalPriceIncludingShipping = '$27.98';
-  const { queryByText } = render(
-    <PriceSummary summary={summary} shippingCharges={1000} totalPrice={1798} />
-  );
-  expect(queryByText(totalPriceIncludingShipping)).toBeInTheDocument;
+    const goudaBurgerPrice = screen.getByTestId('price:Gouda Vibes Burgers');
+    expect(goudaBurgerPrice).toHaveTextContent('$12.98');
+  });
+
+  test('Verify summary information', () => {
+    render(<PriceSummary summary={summary} shippingPrice={1298} totalPrice={5394} />);
+    expect(screen.getByText('Chicken Sausage & Spinach Ravioli')).toBeInTheDocument();
+    expect(screen.getByText('$17.98')).toBeInTheDocument();
+    expect(screen.getByText('Gouda Vibes Burgers x 2')).toBeInTheDocument();
+    expect(screen.getByText('$66.92')).toBeInTheDocument();
+  });
+
+  test('Verify Shipping Charges', async () => {
+    render(
+      <PriceSummary summary={summary} shippingPrice={1298} totalPrice={5394} />
+    );
+
+    const shippingChargesName = screen.getByTestId('name:shippingPrice');
+    expect(shippingChargesName).toHaveTextContent('Shipping Charges');
+
+    const shippingCharges = screen.getByTestId('price:shippingPrice');
+    expect(shippingCharges).toHaveTextContent('$12.98');
+
+
+  });
+
+  test('Verify Total Charges', async () => {
+    render(
+      <PriceSummary summary={summary} shippingPrice={1298} totalPrice={5394} />
+    );
+
+    const totalChargesLabel = screen.getByTestId('name:total');   
+    expect(totalChargesLabel).toHaveTextContent('Total')
+    
+    const totalChargesPrice = screen.getByTestId('price:total');
+    expect(totalChargesPrice).toHaveTextContent('$66.92');
+  });
+
 });
