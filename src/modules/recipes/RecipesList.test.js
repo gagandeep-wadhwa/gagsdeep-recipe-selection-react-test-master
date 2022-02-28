@@ -1,4 +1,5 @@
 import { render, screen, wait } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
 import Recipes from './RecipesList';
 
@@ -16,8 +17,9 @@ describe('RecipeList', () => {
     render(<Recipes />);
     await wait(() => expect(screen.getByText('WEEK OF OCTOBER 12TH')).toBeInTheDocument());
 
-    expect(screen.getByText('Chicken Sausage & Spinach Ravioli')).toBeInTheDocument();
-    // expect(screen.getByText('1 in your box')).toBeInTheDocument();
-    // expect(screen.getByText('(2 servings)')).toBeInTheDocument();
+    const priceSummaryBtn = screen.getByTestId('btn-price-summary');
+    userEvent.click(priceSummaryBtn);
+    expect(screen.getByText('Total')).toBeInTheDocument();
+    
   });
 });
