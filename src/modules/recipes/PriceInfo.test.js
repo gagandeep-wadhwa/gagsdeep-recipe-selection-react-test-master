@@ -21,9 +21,10 @@ describe('Price Summary', () => {
   test('Verify summary information', () => {
     render(<PriceInfo summary={summary} shippingPrice={1000} totalPrice={1798} />);
 
-    const priceSummaryBtn = screen.getByTestId('info-button');
+    const priceSummaryBtn = screen.getByTestId('btn-price-summary');
     userEvent.click(priceSummaryBtn);
     expect(screen.getByText('Total')).toBeInTheDocument();
+    expect(screen.getByText('Shipping Charges')).toBeInTheDocument();
 
   });
 

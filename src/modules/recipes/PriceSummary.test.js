@@ -28,20 +28,13 @@ describe('Price Summary', () => {
 
     const goudaBurger = screen.getByTestId('name:Gouda Vibes Burgers');
     expect(goudaBurger).toHaveTextContent('Gouda Vibes Burgers');
+    expect(screen.getByText('Gouda Vibes Burgers x 2')).toBeInTheDocument();
 
     const goudaBurgerPrice = screen.getByTestId('price:Gouda Vibes Burgers');
     expect(goudaBurgerPrice).toHaveTextContent('$12.98');
   });
 
-  test('Verify summary information', () => {
-    render(<PriceSummary summary={summary} shippingPrice={1298} totalPrice={5394} />);
-    expect(screen.getByText('Chicken Sausage & Spinach Ravioli')).toBeInTheDocument();
-    expect(screen.getByText('$17.98')).toBeInTheDocument();
-    expect(screen.getByText('Gouda Vibes Burgers x 2')).toBeInTheDocument();
-    expect(screen.getByText('$66.92')).toBeInTheDocument();
-  });
-
-  test('Verify Shipping Charges', async () => {
+  test('Verify Shipping Charges', () => {
     render(
       <PriceSummary summary={summary} shippingPrice={1298} totalPrice={5394} />
     );
@@ -55,7 +48,7 @@ describe('Price Summary', () => {
 
   });
 
-  test('Verify Total Charges', async () => {
+  test('Verify Total Charges', () => {
     render(
       <PriceSummary summary={summary} shippingPrice={1298} totalPrice={5394} />
     );

@@ -6,20 +6,11 @@ import Recipes from './RecipesList';
 describe('RecipeList', () => {
   test('Verify RecipeList Items', async () => {
     render(<Recipes />);
-    await wait(() => expect(screen.getByText('WEEK OF OCTOBER 12TH')).toBeInTheDocument());
 
+    await wait(() => expect(screen.getByText('WEEK OF OCTOBER 12TH')).toBeInTheDocument());
+    expect(screen.getByText('$66.92')).toBeInTheDocument();
     expect(screen.getByText('Chicken Sausage & Spinach Ravioli')).toBeInTheDocument();
     expect(screen.getByText('Bruschetta Zucchini Boats')).toBeInTheDocument();
     expect(screen.getByText('Squash & Caramelized Onion Flatbreads')).toBeInTheDocument();
-  });
-
-  test('Verify RecipeList case2', async () => {
-    render(<Recipes />);
-    await wait(() => expect(screen.getByText('WEEK OF OCTOBER 12TH')).toBeInTheDocument());
-
-    const priceSummaryBtn = screen.getByTestId('info-button');
-    userEvent.click(priceSummaryBtn);
-    expect(screen.getByText('Total')).toBeInTheDocument();
-    
   });
 });
