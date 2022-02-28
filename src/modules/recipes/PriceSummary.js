@@ -26,9 +26,9 @@ const PriceSummary = ({ summary, totalPrice, shippingPrice }) => {
       {summary.map(({ name, price, count }) => (
         <Price key={name} name={titleStr(name, count)} price={price} testId={name} />
       ))}
-      <Price name="Shipping Charges" price={shippingPrice} testId={'shippingPrice'}/>
+      <Price name="Shipping Charges" price={shippingPrice} testId="shippingPrice"/>
       <Box my="xs" borderTopStyle="solid" borderTopWidth="sm" borderTopColor="neutral_400" />
-      <Price name="Total" price={total} fontWeight="bold" mb={null} testId={'total'}/>
+      <Price name="Total" price={total} fontWeight="bold" mb={null} testId="total"/>
     </Box>
   );
 };
