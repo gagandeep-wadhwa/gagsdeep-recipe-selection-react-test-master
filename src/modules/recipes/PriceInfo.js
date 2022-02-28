@@ -15,7 +15,7 @@ const PriceInfo = ({ summary, totalPrice, shippingPrice }) => {
 
   return (
     <TooltipContainer ref={ref}>
-      <IconButton onClick={() => setTooltipOpen(!isTooltipOpen)}>
+      <IconButton onClick={() => setTooltipOpen(!isTooltipOpen)} data-test="btn-price-summary">
         <IconInfoCircle size="20" />
       </IconButton>
       {isTooltipOpen ? (
